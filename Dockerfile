@@ -44,6 +44,11 @@ COPY tools/extensionSetup.mjs tools/extensionSetup.mjs
 RUN --mount=type=cache,target=/root/.npm \
     npm ci
 
+# LOKAL (01.11.2026): sharp fehlt im Abbild und der Backend-Start bricht mit
+# 'Cannot find module sharp' ab (Bild-Provider). npm ci holt es offenbar nicht
+# mit; hier ausdruecklich nachziehen, damit der Container startet.
+RUN npm install --no-save sharp
+
 # ---- Source layer -------------------------------------------------------
 COPY . .
 
